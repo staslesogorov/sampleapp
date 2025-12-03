@@ -27,7 +27,7 @@ public class RolesController : ControllerBase
         Description = "Создает новую роль",
         OperationId = "PostRoles"
     )]
-    [SwaggerResponse(200, "Роль создана успешно", typeof(Role))]
+    [SwaggerResponse(201, "Роль создана успешно", typeof(Role))]
     public ActionResult CreateRole(Role Role)
     {
         var validator = new RoleValidator();

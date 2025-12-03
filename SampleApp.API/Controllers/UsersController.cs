@@ -27,7 +27,7 @@ public class UsersController : ControllerBase
         Description = "Создает нового пользователя",
         OperationId = "PostUsers"
     )]
-    [SwaggerResponse(200, "Пользователь создан успешно", typeof(User))]
+    [SwaggerResponse(201, "Пользователь создан успешно", typeof(User))]
     public ActionResult CreateUser(User user)
     {
         var validator = new UserValidator();
