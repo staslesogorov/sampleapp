@@ -5,6 +5,7 @@ using SampleApp.API.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 builder.Services.AddSingleton<IUserRepository, UsersMemoryRepository>();
 builder.Services.AddSingleton<IRoleRepository, RolesMemoryRepository>();
 builder.Services.AddSwaggerGen(c =>
@@ -29,5 +30,6 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseCors(o => o.AllowAnyOrigin().AllowAnyHeader());
 app.MapControllers();
 app.Run();
