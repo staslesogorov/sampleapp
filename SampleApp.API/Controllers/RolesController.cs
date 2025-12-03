@@ -22,6 +22,12 @@ public class RolesController : ControllerBase
     }
 
     [HttpPost]
+    [SwaggerOperation(
+        Summary = "Создание новой роли",
+        Description = "Создает новую роль",
+        OperationId = "PostRoles"
+    )]
+    [SwaggerResponse(200, "Роль создана успешно", typeof(Role))]
     public ActionResult CreateRole(Role Role)
     {
         var validator = new RoleValidator();
@@ -38,11 +44,11 @@ public class RolesController : ControllerBase
     
     [HttpGet]
     [SwaggerOperation(
-        Summary = "Получение списка пользователей",
-        Description = "Возвращает все пользователей",
-        OperationId = "GetProducts"
+        Summary = "Получение списка ролей",
+        Description = "Возвращает все роли",
+        OperationId = "GetRoles"
     )]
-    [SwaggerResponse(200, "Список пользователей получен успешно", typeof(List<User>))]
+    [SwaggerResponse(200, "Список ролей получен успешно", typeof(List<Role>))]
     public ActionResult GetRoles()
     {
         return Ok(_repo.GetRoles());
@@ -50,23 +56,35 @@ public class RolesController : ControllerBase
     
     [HttpPut]
     [SwaggerOperation(
-        Summary = "Получение списка пользователей",
-        Description = "Возвращает все пользователей",
-        OperationId = "GetProducts"
+        Summary = "Изменение роли",
+        Description = "Изменяет роль",
+        OperationId = "PutRoles"
     )]
-    [SwaggerResponse(200, "Список пользователей получен успешно", typeof(List<User>))]
+    [SwaggerResponse(200, "Роль изменена успешно", typeof(Role))]
     public ActionResult UpdateRole(Role Role)
     {
         return Ok(_repo.EditRole(Role, Role.Id));
     }
 
     [HttpGet("{id}")]
+    [SwaggerOperation(
+        Summary = "Получение роли",
+        Description = "Возвращает роль",
+        OperationId = "GetRoles/id"
+    )]
+    [SwaggerResponse(200, "Роль получена", typeof(Role))]
     public ActionResult GetRoleById(int id)
     {
         return Ok(_repo.FindRoleById(id));
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
+    [SwaggerOperation(
+        Summary = "Удаление роли",
+        Description = "Удаляет роль",
+        OperationId = "DeleteRoles"
+    )]
+    [SwaggerResponse(200, "Роль удалена", typeof(bool))]
     public ActionResult DeleteRole(int id)
     {
         return Ok(_repo.DeleteRole(id));
