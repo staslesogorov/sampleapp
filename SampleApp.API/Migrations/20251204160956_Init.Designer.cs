@@ -12,7 +12,7 @@ using SampleApp.API.Data;
 namespace SampleApp.API.Migrations
 {
     [DbContext(typeof(SampleAppContext))]
-    [Migration("20251204155815_Init")]
+    [Migration("20251204160956_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -51,6 +51,10 @@ namespace SampleApp.API.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("bytea");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

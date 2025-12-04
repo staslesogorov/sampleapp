@@ -53,7 +53,50 @@ namespace SampleApp.API.Repositories
 
         public User FindUserById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = _db.Users.Where(u => u.Id == id).FirstOrDefault();
+
+                if (result == null)
+                {
+                    throw new Exception($"Нет пользователя с id = {id}");
+                }
+
+                return result;
+            }
+            catch (NpgsqlException ex)
+            {
+                throw new NpgsqlException($"Ошибка SQL: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ошибка: {ex.Message}");
+            }
+
         }
+
+        public User FindUserByLogin(string login)
+        {
+            try
+            {
+                var result = _db.Users.Where(u => u.Login == login).FirstOrDefault();
+
+                if (result == null)
+                {
+                    throw new Exception($"Нет пользователя с id = {login}");
+                }
+
+                return result;
+            }
+            catch (NpgsqlException ex)
+            {
+                throw new NpgsqlException($"Ошибка SQL: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ошибка: {ex.Message}");
+            }
+        }
+
     }
 }

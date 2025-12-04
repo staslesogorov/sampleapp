@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SampleApp.API.Dto;
@@ -19,11 +20,14 @@ public class UsersController : ControllerBase
 {
     private HMACSHA256 hmac = new HMACSHA256();
     private readonly IUserRepository _repo;
+    private readonly ITokenService _token;
     
-    public UsersController(IUserRepository repo)
+    public UsersController(IUserRepository repo, ITokenService token)
     {
         _repo = repo;
+        _token = token;
     }
+
 
     [HttpPost]
     [SwaggerOperation(
@@ -36,6 +40,7 @@ public class UsersController : ControllerBase
     {
         var user  = new User(){
                 Login = userDto.Login,
+                Token = _token.CreateToken(userDto.Login),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password)),
                 PasswordSalt = hmac.Key,
                 Name = ""
@@ -99,5 +104,27 @@ public class UsersController : ControllerBase
     {
         return Ok(_repo.DeleteUser(id));
     }
+    [HttpPost("Login")]
+    public ActionResult Login(UserDto userDto)
+    {
+        var user = _repo.FindUserByLogin(userDto.Login);
+        return CheckPasswordHash(userDto, user);
+    }
+    private ActionResult CheckPasswordHash(UserDto userDto, User user)
+        {
+
+            using var hmac = new HMACSHA256(user.PasswordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
+
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i])
+                {
+                    return Unauthorized($"Неправильный пароль");
+                }
+            }
+
+            return Ok(user);
+        }
 }
 }

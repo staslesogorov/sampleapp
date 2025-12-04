@@ -9,6 +9,7 @@ namespace SampleApp.API.Entities
     {
         public string Name { get; set; } = string.Empty;
 
+        public string Token {get; set;}
         public required string Login {get; set;}
         public byte[] PasswordHash {get; set;}
         public byte[] PasswordSalt {get; set;}

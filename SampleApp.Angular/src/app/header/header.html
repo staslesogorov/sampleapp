@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+
+  @if(authService.currentUser() != null){
+    <div>
+        <button mat-button [routerLink]="['/']">
+        <mat-icon> home </mat-icon>
+        Home
+        </button>
+
+        <button mat-button [routerLink]="['/users']">
+        <mat-icon> people </mat-icon>
+        Пользователи
+        </button>
+    </div>
+
+    <button mat-button type="button" (click)="authService.logout()">
+        <mat-icon> logout </mat-icon>
+        Выход
+    </button>
+  }@else{
+    <button mat-button  [routerLink]="['/sign']">
+        <mat-icon> login </mat-icon>
+        Логин
+    </button>
+  }
+
+
+  
+</mat-toolbar>

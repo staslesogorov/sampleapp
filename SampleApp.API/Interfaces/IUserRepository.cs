@@ -13,5 +13,6 @@ namespace SampleApp.API.Interfaces
     User EditUser(User user, int id);
     bool DeleteUser(int id);
     User FindUserById(int id);
+    User FindUserByLogin(string login);
 }
 }

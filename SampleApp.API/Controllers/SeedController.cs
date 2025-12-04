@@ -18,9 +18,11 @@ namespace SampleApp.API.Controllers
     public class SeedController : ControllerBase
     {
         private readonly SampleAppContext _db;
-        public SeedController(SampleAppContext db)
+        private readonly ITokenService _token;
+        public SeedController(SampleAppContext db, ITokenService token)
         {
             _db = db;
+            _token = token;
         }
 
         [HttpGet("generate")]
@@ -53,6 +55,7 @@ namespace SampleApp.API.Controllers
                     var u = new User()
                     {
                         Login = user.Login,
+                        Token = _token.CreateToken(user.Login),
                         PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
                         PasswordSalt = hmac.Key,
                     };
