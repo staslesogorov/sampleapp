@@ -17,7 +17,7 @@ namespace SampleApp.API.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=04ip215;Username=postgres;Password=123");
+            optionsBuilder.UseNpgsql("Host=192.168.4.90;Port=5432;Database=04ip215;Username=04ip215;Password=04ip215");
         }
     }
 

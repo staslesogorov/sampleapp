@@ -28,7 +28,7 @@ namespace SampleApp.API.Extensions
                         Description = "API для пользователей",
                         Contact = new OpenApiContact
                         {
-                            Url = new Uri("https://github.com/staslesogorov"),
+                            Url = new Uri("https://github.com/staslesogorov/sampleapp"),
                             Email = "14ib233@stud.scc",
                         },
                     }
