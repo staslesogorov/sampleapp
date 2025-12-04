@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using SampleApp.API.Data;
 using SampleApp.API.Interfaces;
 using SampleApp.API.Repositories;
 
@@ -6,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddSingleton<IUserRepository, UsersMemoryRepository>();
+builder.Services.AddScoped<IUserRepository, UsersRepository>();
 builder.Services.AddSingleton<IRoleRepository, RolesMemoryRepository>();
+builder.Services.AddScoped<SampleAppContext, SampleAppContext>();
+builder.Services.AddDbContext<SampleAppContext>(o => o.UseNpgsql(builder.Configuration["ConnectionStrings:PostgreSQL"]));
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();

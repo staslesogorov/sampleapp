@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SampleApp.API.Dto;
 using SampleApp.API.Entities;
 using SampleApp.API.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -14,6 +17,7 @@ namespace SampleApp.API.Controllers
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
+    private HMACSHA256 hmac = new HMACSHA256();
     private readonly IUserRepository _repo;
     
     public UsersController(IUserRepository repo)
@@ -28,8 +32,14 @@ public class UsersController : ControllerBase
         OperationId = "PostUsers"
     )]
     [SwaggerResponse(201, "Пользователь создан успешно", typeof(User))]
-    public ActionResult CreateUser(User user)
+    public ActionResult CreateUser(UserDto userDto)
     {
+        var user  = new User(){
+                Login = userDto.Login,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password)),
+                PasswordSalt = hmac.Key,
+                Name = ""
+        };
         var validator = new UserValidator();
         var result = validator.Validate(user);
         
