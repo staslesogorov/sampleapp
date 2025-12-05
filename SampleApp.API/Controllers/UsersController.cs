@@ -57,6 +57,7 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
     }   
     
+    [Authorize]
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение списка пользователей",

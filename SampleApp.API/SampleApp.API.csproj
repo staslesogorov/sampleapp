@@ -31,6 +31,5 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
   </ItemGroup>
-
 </Project>
 

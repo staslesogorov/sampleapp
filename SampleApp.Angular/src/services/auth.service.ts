@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthServiced {
 
   http = inject(HttpClient)
   router = inject(Router)
@@ -21,6 +21,7 @@ export class AuthService {
         if(user){
           localStorage.setItem("user",JSON.stringify(user))
           this.currentUser.set(user)
+          this.router.navigate(['/home']);
           return user;
         }
         else{
@@ -33,10 +34,9 @@ export class AuthService {
   register(model: any) : Observable<User | null> {
     return this.http.post<User>(environment.api + '/Users', model, this.generateHeaders()).pipe(
       map((response: User) => {
-        const user = response;
+        const user = response;  
         if(user){
-          localStorage.setItem("user",JSON.stringify(user))
-          this.currentUser.set(user)
+          this.router.navigate(['/auth']);
           return user;
         }
         else{
@@ -49,7 +49,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.currentUser.set(null);
-    this.router.navigate(['/sign']);
+    this.router.navigate(['/auth']);
   }
   private generateHeaders = () => {
     return {

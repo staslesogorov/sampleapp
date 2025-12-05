@@ -23,7 +23,6 @@ export class Sign {
       .subscribe({ 
         next: (r) => {
           console.log(r);
-          this.router.navigate(['/']);
         }, 
         error: (e) => console.log(e.error) 
       });

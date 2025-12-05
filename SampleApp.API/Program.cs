@@ -26,6 +26,5 @@ app.UseSwaggerUI();
 app.UseCors(o => o.AllowAnyOrigin().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 app.Run();
